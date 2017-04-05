@@ -10,7 +10,8 @@ defined('DIR_BASE') OR exit('No direct script access allowed');
  */
 $config['route'] = array(
     'home',
-    'admin'
+    'user',
+    'admin',
     );
 
 ?>

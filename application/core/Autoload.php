@@ -11,6 +11,7 @@ class Autoload
      */
     public function __construct($config)
     {
+        session_start();
         $this->config = $config;
     }
 
@@ -51,6 +52,8 @@ class Autoload
                     $this->init_controller($controller_name, $method_name, $params);
                 }
             }
+        }else{
+            $this->init_controller('home', 'index');
         }
     }
 
@@ -61,7 +64,7 @@ class Autoload
         $method_name = strtolower($method_name);
 
         if (include(DIR_CONTROL . '/' . $controller_name . '.php')) {
-            $controller = new $controller_name();
+            $controller = new $controller_name($params);
             if (method_exists($controller, $method_name)) {
                 $controller->$method_name();
             }else{

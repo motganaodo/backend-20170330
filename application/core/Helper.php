@@ -17,6 +17,17 @@ function redirect($url = '/')
     exit();
 }
 
+function frontend_class($type) {
+    switch ($type) {
+        case 'error':
+            return 'danger';
+            break;
+        default:
+            return $type;
+            break;
+    }
+}
+
 /**
  * Debug
  * @param  string $message
@@ -24,7 +35,7 @@ function redirect($url = '/')
  */
 function log_message($message)
 {
-    error_log(var_export($message, true) . "\n", 3, DIR_BASE . '/debug/tien-dev.log');
+    error_log( '['. date('Y-M-d | H:i:s') .'] ### '. var_export($message, true) . "\n", 3, DIR_BASE . '/debug/tien-dev.log');
 }
 
 

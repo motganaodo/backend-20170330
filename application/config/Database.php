@@ -8,12 +8,12 @@ class Database
     protected $username = 'root';
     protected $password = '123456';
 
-    protected $dbh;
+    protected $db;
     
     public function __construct()
     {
         try{
-            $this->dbh = new PDO('mysql:host=localhost;dbname=' . $this->database_name, $this->username, $this->password);
+            $this->db = new PDO('mysql:host=localhost;dbname=' . $this->database_name, $this->username, $this->password);
         }catch(PDOException $e) {
             throw new Exception($e->getMessage(), 1);
         }
@@ -21,17 +21,18 @@ class Database
 
     /**
      * 
-     * @param  string $sql    
+     * @param  string $sql
      * @param  array $params    values for prepare statement sql
-     * @return mixed
+     * @return statement
      */
     public function query($sql, $params)
     {
-        $stmt = $dbh->prepare($sql);
-        for ($i = 1; $i < count($params); $i++) {
-            $stmt->bindParam($i, $params[$i]);
+        $stmt = $this->db->prepare($sql);
+        for ($i = 0; $i < count($params); $i++) {
+            $stmt->bindParam($i+1, $params[$i]);
         }
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 }
 ?>
