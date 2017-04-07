@@ -2,27 +2,28 @@
 
 <div class="col-md-6 col-md-offset-3">
     <h2 class="text-uppercase">List users</h2>
+    <div>&nbsp;</div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
+                    <th class="col-md-2">No</th>
+                    <th class="col-md-4">Username</th>
+                    <th class="col-md-4">Email</th>
+                    <th class="col-md-1">&nbsp;</th>
+                    <th class="col-md-1">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $i = 0;
-                    foreach ($content as $key => $user):
-                        $i++;
+                foreach ($content['users'] as $key => $user):
+                    $i++;
                 ?>
                     <tr>
                         <td><?php echo $i; ?></td>
-                        <td></td>
-                        <td></td>
+                        <td><?php echo $user['name']; ?></td>
+                        <td><?php echo $user['email']; ?></td>
                         <td><a href="#" class="btn btn-info">Edit</a></td>
                         <td><a href="#" class="btn btn-danger">Delete</a></td>
                     </tr>

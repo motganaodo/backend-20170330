@@ -18,21 +18,5 @@ class Database
             throw new Exception($e->getMessage(), 1);
         }
     }
-
-    /**
-     * 
-     * @param  string $sql
-     * @param  array $params    values for prepare statement sql
-     * @return statement
-     */
-    public function query($sql, $params)
-    {
-        $stmt = $this->db->prepare($sql);
-        for ($i = 0; $i < count($params); $i++) {
-            $stmt->bindParam($i+1, $params[$i]);
-        }
-        $stmt->execute();
-        return $stmt;
-    }
 }
 ?>

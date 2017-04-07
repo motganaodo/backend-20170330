@@ -1,7 +1,17 @@
 header {
   background-color: #0099cc;
   color: #fff;
+  padding: 15px 0;
 }
+
+header a {
+  color: #fff;
+}
+
+header a:hover {
+  color: #fff;
+}
+
 
 .main-content {
   margin-top: 5%;

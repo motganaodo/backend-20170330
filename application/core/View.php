@@ -4,8 +4,7 @@
  */
 class View
 {
-    protected $message;
-    protected $content;
+    protected $content = array();
     /**
      * Generate output for client
      * @param  string $dir_file
@@ -13,7 +12,6 @@ class View
      */
     public function render($dir_file = '')
     {
-        $message = $this->message;
         $content = $this->content;
         
         include(DIR_VIEW . '/layer.php');
@@ -24,14 +22,14 @@ class View
      * @param string $name  variable name
      * @param mixed $value 
      */
-    public function set($name, $value)
+    public function set_content($name, $value)
     {
-        $this->$name = $value;
+        $this->content[$name] = $value;
     }
 
-    public function get($name)
+    public function get_content($name)
     {
-        return $this->$name;
+        return $this->content[$name];
     }
 
 }

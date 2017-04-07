@@ -8,12 +8,11 @@ function home_url()
 
 /**
  * Redirect to url
- * @param  string $url
  * @return default home
  */
 function redirect($url = '/')
 {
-    header('Location: ' . $url);
+    header('Location: '. $url);
     exit();
 }
 
@@ -38,6 +37,9 @@ function log_message($message)
     error_log( '['. date('Y-M-d | H:i:s') .'] ### '. var_export($message, true) . "\n", 3, DIR_BASE . '/debug/tien-dev.log');
 }
 
-
+function get_user_name()
+{
+    return $_SESSION['user']['name'];
+}
 
 ?>

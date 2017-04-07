@@ -16,10 +16,19 @@ class AdminController extends UserController
         if (!Authentication::is_admin()) {
             redirect();
         }
-        $users = $this->model->get_all_user($this->params['paged'], 12);
+        $users = $this->model->get_all_user($this->params['paged']);
 
-        $this->view->set('content', $users);
-        $this->view->render('/admin/content.php');
+        $this->view->set_content('users', $users);
+        $this->view->render('/admin/list.php');
+    }
+
+    public function edit()
+    {
+        if (!Authentication::is_admin()) {
+            redirect();
+        }
+        $this->view->set_content('title', 'Add new user');
+        $this->view->render('/admin/user-info.php');
     }
 }
 ?>

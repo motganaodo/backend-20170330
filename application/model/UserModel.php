@@ -1,9 +1,9 @@
 <?php
 /**
-* 
+* table: users
 */
 class UserModel extends Model
-{
+{   
     public function __construct()
     {
         parent::__construct();
@@ -28,6 +28,24 @@ class UserModel extends Model
     public function get_all_user($offset = 1, $limit = 12)
     {
         return $this->fetch_all('users', $offset, $limit);
+    }
+
+    /**
+     * 
+     * @param  array    $info   array('column' => 'value')
+     * @return int              number of rows
+     */
+    public function create_user($username, $email, $birthdate, $password)
+    {
+        $info = array(
+            'name' => $username,
+            'email' => $email,
+            'birthdate' => $birthdate,
+            'password' => sha1($password),
+            'role' => 0
+            );
+        $stmt = $this->insert('users', $info);
+        return $stmt->rowCount();
     }
 }
 ?>

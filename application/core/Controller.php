@@ -13,11 +13,9 @@ class Controller
         $this->view = new View();
 
         $this->params['paged'] = 1;
-        if (!empty($params)) {
-            if ($params[0] == 'paged') {
-                if (is_int($params[1]+0) && ($params[1]+0) > 1) {
-                    $this->params['paged'] = $params[1];
-                }
+        if (!empty($params) && $params[0] == 'paged') {
+            if (is_int($params[1]+0) && ($params[1]+0) > 1) {
+                $this->params['paged'] = $params[1];
             }
         }
     }

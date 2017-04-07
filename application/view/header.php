@@ -1,15 +1,19 @@
 <?php defined('DIR_BASE') OR exit('No direct script access allowed'); ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>Backend 31-03-2017</title>
-
-    <link rel="stylesheet" href="<?php echo URL_ASSETS; ?>/css/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo URL_ASSETS; ?>/css/style.css">
-</head>
-<body>
+<header class="row">
+    <div class=" col-md-4 text-uppercase text-center">
+        <h2>Tien - Back End</h2>
+    </div>
+    <div class="col-md-4 col-md-offset-4">
+        <?php if (Authentication::is_login()): ?>
+            <p>&nbsp;</p>
+            <p>Welcome: <?php echo get_user_name(); ?></p>
+            <a href="/user/logout">Logout</a>
+        <?php else: ?>
+            <p>&nbsp;</p>
+            <a href="/user/login">Login</a>
+            &nbsp;
+            <a href="/user/signup">Sign up</a>
+        <?php endif; ?>
+    </div>
+</header>
