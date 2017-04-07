@@ -27,7 +27,7 @@ class AdminController extends UserController
         if (!Authentication::is_admin()) {
             redirect();
         }
-        $this->view->set_content('title', 'Add new user');
+        $this->view->set_content('title', 'Edit user');
         $this->view->render('/admin/user-info.php');
     }
 }

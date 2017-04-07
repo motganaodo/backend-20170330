@@ -96,6 +96,12 @@ class UserController extends Controller
                 if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
                     $validate = false;
                     $msg['content'][] = 'Email invalid';
+                }else{
+                    $user = $this->model->get_user('email', $_POST['email']);
+                    if (!empty($user)) {
+                        $validate = false;
+                        $msg['content'][] = 'Email already register';
+                    }
                 }
             }else{
                 $validate = false;
@@ -124,20 +130,20 @@ class UserController extends Controller
                 $msg['content'][] = 'The password and re-password cannot be blank';
             }
             if ($validate) {
-                    $email = $_POST['email'];
-                    $birthdate = implode('/', array($yyyy, $mm, $dd));
-                    $password = $_POST['password'];
+                // $name above
+                $email = $_POST['email'];
+                $birthdate = implode('/', array($yyyy, $mm, $dd));
+                $password = $_POST['password'];
 
-                    $result = $this->model->create_user($name, $email, $birthdate, $password);
+                $result = $this->model->create_user($name, $email, $birthdate, $password);
 
-                    if ($result > 0) {
-                        $msg['content']['type'] = 'success';
-                        $msg['content'][] = 'Signup successful';
-                        redirect();
-                    }else{
-                        $msg['content'][] = 'An error occurred';
-                    }
-                    
+                if ($result > 0) {
+                    $msg['content']['type'] = 'success';
+                    $msg['content'][] = 'Signup successful';
+                    redirect();
+                }else{
+                    $msg['content'][] = 'An error occurred';
+                } 
             }
             $this->view->set_content('message', $msg);
         }

@@ -4,7 +4,6 @@
 */
 class Model extends Database
 {
-    
     public function __construct()
     {
         parent::__construct();
@@ -16,7 +15,7 @@ class Model extends Database
      * @param  array $params    values for prepare statement sql
      * @return statement
      */
-    protected function query($sql, $params = array())
+    protected function general_query($sql, $params = array())
     {
         try{
             $stmt = $this->db->prepare($sql);
@@ -26,7 +25,7 @@ class Model extends Database
             $stmt->execute();
             return $stmt;
         }catch(Exception $e) {
-            throw new Exception("Query error: ". var_export($e, true), 1);
+            throw new Exception("Query error: ". $e->getMessage(), 1);
         }
     }
 
@@ -38,17 +37,18 @@ class Model extends Database
     protected function fetch_one_row($args)
     {
         $sql = "SELECT * FROM ". $args['table'] ." WHERE ". $args['key'] ."= ? LIMIT 1";
-        $stmt = $this->query($sql, $args['values']);
+        $stmt = $this->general_query($sql, $args['values']);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     protected function fetch_all($table, $offset, $limit)
     {
-        $offset = ($offset+0 - 1) * $limit;
-        $sql = "SELECT * FROM ". $table . " LIMIT ?,?";
-        $stmt = $this->query($sql, array($offset, $limit));
+        $offset = ($offset + 0 - 1) * $limit;
+        $sql = "SELECT * FROM ". $table ." LIMIT ?, ?";
+        $stmt = $this->general_query($sql, array($offset, $limit));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     /**
      * 
      * @param  string   $table
@@ -64,7 +64,7 @@ class Model extends Database
             $prepare[] = "?";
         }
         $sql = "INSERT INTO ". $table ." (". implode(",", $columns) .") VALUES (". implode(",", $prepare) . ")";
-        $stmt = $this->query($sql, $values);
+        $stmt = $this->general_query($sql, $values);
         return $stmt;
     }
 }

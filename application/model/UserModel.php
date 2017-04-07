@@ -25,9 +25,9 @@ class UserModel extends Model
         return $this->fetch_one_row($args);
     }
 
-    public function get_all_user($offset = 1, $limit = 12)
+    public function get_all_user($paged = 1, $limit = 12)
     {
-        return $this->fetch_all('users', $offset, $limit);
+        return $this->fetch_all('users', $paged, $limit);
     }
 
     /**

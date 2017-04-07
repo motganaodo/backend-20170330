@@ -7,9 +7,10 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="col-md-2">No</th>
-                    <th class="col-md-4">Username</th>
-                    <th class="col-md-4">Email</th>
+                    <th class="col-md-1">No</th>
+                    <th class="col-md-3">Username</th>
+                    <th class="col-md-3">Email</th>
+                    <th class="col-md-3">Birthdate</th>
                     <th class="col-md-1">&nbsp;</th>
                     <th class="col-md-1">&nbsp;</th>
                 </tr>
@@ -24,6 +25,7 @@
                         <td><?php echo $i; ?></td>
                         <td><?php echo $user['name']; ?></td>
                         <td><?php echo $user['email']; ?></td>
+                        <td><?php echo $user['birthdate']; ?></td>
                         <td><a href="#" class="btn btn-info">Edit</a></td>
                         <td><a href="#" class="btn btn-danger">Delete</a></td>
                     </tr>
