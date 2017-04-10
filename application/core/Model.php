@@ -19,10 +19,21 @@ class Model extends Database
     {
         try{
             $stmt = $this->db->prepare($sql);
-            for ($i = 0; $i < count($params); $i++) {
-                $stmt->bindParam($i+1, $params[$i]);
+            foreach ($params as $key => $data) {
+                switch ($data['type']) {
+                    case 'int':
+                    $stmt->bindParam($key, intval($data['value']), PDO::PARAM_INT);
+                    break;
+                    default:
+                    $stmt->bindParam($key, $data['value'], PDO::PARAM_STR);
+                    break;
+                }
             }
             $stmt->execute();
+            // Debug
+            // ob_start();
+            // $stmt->debugDumpParams();
+            // log_message(ob_get_clean());
             return $stmt;
         }catch(Exception $e) {
             throw new Exception("Query error: ". $e->getMessage(), 1);
@@ -34,18 +45,24 @@ class Model extends Database
      * @param  array $args  table, where-condition, values = array('value_1', 'value_2', ...)
      * @return array or FALSE
      */
-    protected function fetch_one_row($args)
+    protected function fetch_one_row($table, $key_name, $value)
     {
-        $sql = "SELECT * FROM ". $args['table'] ." WHERE ". $args['key'] ."= ? LIMIT 1";
-        $stmt = $this->general_query($sql, $args['values']);
+        $sql = "SELECT * FROM ". $args['table'] ." WHERE ". $key_name ."= :email LIMIT 1";
+        $stmt = $this->general_query($sql, array(':email' => $value));
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     protected function fetch_all($table, $offset, $limit)
     {
-        $offset = ($offset + 0 - 1) * $limit;
-        $sql = "SELECT * FROM ". $table ." LIMIT ?, ?";
-        $stmt = $this->general_query($sql, array($offset, $limit));
+        $offset *= 1;
+        $limit *= 1;
+        $offset = ($offset - 1) * $limit;
+        $sql = "SELECT * FROM ". $table ." LIMIT :offset, :limit";
+        $args = array(
+            ':offset' => array('type' => 'int', 'value' => $offset),
+            ':limit' => array('type' => 'int', 'value' => $limit),
+            );
+        $stmt = $this->general_query($sql, $args);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

@@ -17,12 +17,7 @@ class UserModel extends Model
      */
     public function get_user($key_name, $value)
     {
-        $args = array(
-            'table' => 'users',
-            'key' => $key_name,
-            'values' => array($value)
-            );
-        return $this->fetch_one_row($args);
+        return $this->fetch_one_row('users', $key_name, $value);
     }
 
     public function get_all_user($paged = 1, $limit = 12)
