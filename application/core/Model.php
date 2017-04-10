@@ -71,6 +71,12 @@ class Model extends Database
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    protected function count($table)
+    {
+        $stmt = $this->db->query("SELECT COUNT(id) FROM ". $table);
+        return $stmt->fetchColumn();
+    }
+
     /**
      * 
      * @param  string   $table
@@ -95,5 +101,6 @@ class Model extends Database
         $stmt = $this->general_query($sql, $values);
         return $stmt;
     }
+
 }
 ?>

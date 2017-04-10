@@ -42,7 +42,7 @@ class Autoload
 
                         // Validate parameters
                         if (!empty($request_args[3])) {
-                            for ($i = 3; $i <= count($request_args); $i++) {
+                            for ($i = 3; $i < count($request_args); $i++) {
                                 if (preg_match('/^\w+$/', $request_args[$i]) === 1) {
                                     $params[] = $request_args[$i];
                                 }
@@ -64,8 +64,9 @@ class Autoload
         $method_name = strtolower($method_name);
 
         if (include(DIR_CONTROL . '/' . $controller_name . '.php')) {
-            $controller = new $controller_name($params);
+            $controller = new $controller_name("test");
             if (method_exists($controller, $method_name)) {
+                $controller->set_page($params);
                 $controller->$method_name();
             }else{
                 redirect('/404.html');

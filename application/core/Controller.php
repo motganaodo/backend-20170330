@@ -8,14 +8,18 @@ class Controller
     protected $view;
     protected $params;
 
-    public function __construct($params = array())
+    public function __construct()
     {
         $this->view = new View();
-
         $this->params['paged'] = 1;
-        if (!empty($params) && $params[0] == 'paged') {
-            if (is_int($params[1]+0) && ($params[1]+0) > 1) {
-                $this->params['paged'] = $params[1];
+    }
+
+    public function set_page($params)
+    {
+        if (!empty($params) && preg_match('/^\d{1,9}$/', $params[0]) === 1) {
+            $paged = $params[0]*1;
+            if (is_int($paged) && $paged > 1) {
+                $this->params['paged'] = $paged;
             }
         }
     }

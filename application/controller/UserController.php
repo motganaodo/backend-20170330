@@ -4,6 +4,8 @@
 */
 class UserController extends Controller
 {
+    protected $limit = 9;
+
     public function __construct()
     {
         parent::__construct();

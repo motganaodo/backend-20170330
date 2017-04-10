@@ -5,10 +5,15 @@
 class UserModel extends Model
 {
     protected $user_table = 'users';
-    
+
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function get_total()
+    {
+        return (int)$this->count($this->user_table);
     }
 
     /**
@@ -42,7 +47,6 @@ class UserModel extends Model
             'role' => array('type' => 'int', 'value' => $role),
             );
         $stmt = $this->insert($this->user_table, $info);
-        return 1;
         return $stmt->rowCount();
     }
 }
