@@ -5,7 +5,7 @@
     <div>&nbsp;</div>
 
     <?php if (!empty($content['message'])) : ?>
-            <div class="alert <?php echo 'alert-'. frontend_class($$content['message']['type']); ?>">
+            <div class="alert <?php echo 'alert-'. frontend_class($content['message']['type']); ?>">
                 <?php echo $content['message']['content']; ?>
             </div>
     <?php endif; ?>

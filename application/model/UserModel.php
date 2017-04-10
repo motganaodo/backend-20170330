@@ -30,14 +30,21 @@ class UserModel extends Model
      * @param  array    $info   array('column' => 'value')
      * @return int              number of rows
      */
-    public function create_user($username, $email, $birthdate, $password)
+    public function create_user($username, $email, $birthdate, $password, $role = 0)
     {
-        $info = array(
+        /*$info = array(
             'name' => $username,
             'email' => $email,
             'birthdate' => $birthdate,
             'password' => sha1($password),
-            'role' => 0
+            'role' => $role
+            );*/
+        $info = array(
+            'name' => array('type' => 'string', 'value' => $username),
+            'email' => array('type' => 'string', 'value' => $email),
+            'birthdate' => array('type' => 'string', 'value' => $birthdate),
+            'password' => array('type' => 'string', 'value' => sha1($password)),
+            'role' => array('type' => 'int', 'value' => $role),
             );
         $stmt = $this->insert('users', $info);
         return $stmt->rowCount();

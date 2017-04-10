@@ -25,7 +25,8 @@ class Model extends Database
                     $stmt->bindParam($key, intval($data['value']), PDO::PARAM_INT);
                     break;
                     default:
-                    $stmt->bindParam($key, $data['value'], PDO::PARAM_STR);
+                    $value = (string)$data['value'];
+                    $stmt->bindParam($key, $value, PDO::PARAM_STR);
                     break;
                 }
             }
@@ -47,8 +48,11 @@ class Model extends Database
      */
     protected function fetch_one_row($table, $key_name, $value)
     {
-        $sql = "SELECT * FROM ". $args['table'] ." WHERE ". $key_name ."= :email LIMIT 1";
-        $stmt = $this->general_query($sql, array(':email' => $value));
+        $sql = "SELECT * FROM ". $table ." WHERE ". $key_name ."= :email LIMIT 1";
+        $args = array(
+            ':email' => array('type' => 'string', 'value' => $value),
+            );
+        $stmt = $this->general_query($sql, $args);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -75,11 +79,15 @@ class Model extends Database
     protected function insert($table, $data)
     {
         $columns = $values = $prepare = array();
-        foreach ($data as $column => $value) {
+        foreach ($data as $column => $args) {
             $columns[] = $column;
-            $values[] = $value;
-            $prepare[] = "?";
+            // $values[] = $value;
+            // $prepare[] = "?";
+            $param = ":". $column;
+            $prepare[] = $param;
+            $values["$param"] = $args;
         }
+        log_message($values);
         $sql = "INSERT INTO ". $table ." (". implode(",", $columns) .") VALUES (". implode(",", $prepare) . ")";
         $stmt = $this->general_query($sql, $values);
         return $stmt;

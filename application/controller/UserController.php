@@ -41,9 +41,14 @@ class UserController extends Controller
                     }else{
                         $msg = array(
                             'type' => 'info',
-                            'content' => 'Login false'
+                            'content' => 'Wrong email or password'
                             );
                     }
+                }else{
+                    $msg = array(
+                    'type' => 'error',
+                    'content' => 'Wrong email or password'
+                    );
                 }
             }else{
                 $msg = array(
@@ -123,11 +128,11 @@ class UserController extends Controller
             if (!empty($_POST['password']) && !empty($_POST['re-password'])) {
                 if ($_POST['password'] != $_POST['re-password']) {
                     $validate = false;
-                    $msg['content'][] = "The password and re password doesn't match";
+                    $msg['content'][] = "The password and confirm password doesn't match";
                 }
             }else{
                 $validate = false;
-                $msg['content'][] = 'The password and re-password cannot be blank';
+                $msg['content'][] = 'The password and confirm password cannot be blank';
             }
             if ($validate) {
                 // $name above

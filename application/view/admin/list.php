@@ -2,6 +2,13 @@
 
 <div class="col-md-6 col-md-offset-3">
     <h2 class="text-uppercase">List users</h2>
+    <?php if (!empty($content['message']['content'])) : ?>
+        <div class="alert <?php echo 'alert-'. frontend_class($content['message']['type']); ?>">
+            <?php foreach ($content['message']['content'] as $msg): ?>
+                <p><?php echo $msg; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
     <div>&nbsp;</div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">

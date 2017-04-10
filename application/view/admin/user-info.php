@@ -3,26 +3,33 @@
 <div class="col-md-6 col-md-offset-3">
     <h2 class="text-uppercase"><?php echo $content['title']; ?></h2>
     <div>&nbsp;</div>
-    <form action="/admin/create" method="post" accept-charset="utf-8">
+
+    <form action="/admin/edit" method="post" accept-charset="utf-8">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" name="name" class="form-control" id="name">
+            <input type="text" name="name" id="name" class="form-control">
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" name="email" class="form-control" id="email">
+            <input type="email" name="email" id="email" class="form-control">
         </div>
         <div class="form-group">
-            <label for="email">Birthday</label>
-            <input type="text" name="email" class="form-control" id="birthday">
+            <label for="birthdate">Birthdate</label>
+            <div class="input-group date">
+                <input type="text" name="birthdate" id="birthdate" class="form-control">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
         </div>
         <div class="form-group">
-            <label for="email">Role</label>
-            <select name="role" class="form-control">
-                <option value="0" selected="selected">User</option>
-                <option value="2">Manager</option>
-            </select>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control">
         </div>
-        <input type="submit" name="submit" value="Create" class="btn btn-info">
+        <div class="form-group">
+            <label for="re-password">Re enter Password</label>
+            <input type="password" name="re-password" id="re-password" class="form-control">
+        </div>
+        <input type="submit" value="Signup" class="btn btn-info">
     </form>
 </div>
