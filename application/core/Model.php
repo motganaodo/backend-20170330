@@ -22,12 +22,13 @@ class Model extends Database
             foreach ($params as $key => $data) {
                 switch ($data['type']) {
                     case 'int':
-                    $stmt->bindParam($key, intval($data['value']), PDO::PARAM_INT);
-                    break;
+                        // Must use intval
+                        $stmt->bindParam($key, intval($data['value']), PDO::PARAM_INT);
+                        break;
                     default:
-                    $value = (string)$data['value'];
-                    $stmt->bindParam($key, $value, PDO::PARAM_STR);
-                    break;
+                        // Do not convert to string
+                        $stmt->bindParam($key, $data['value'], PDO::PARAM_STR);
+                        break;
                 }
             }
             $stmt->execute();
@@ -73,7 +74,12 @@ class Model extends Database
     /**
      * 
      * @param  string   $table
-     * @param  array    $data   array('column' => 'value')
+     * @param  array    $data   array(
+     *                              'column' => array(
+     *                                          'type' => '',
+     *                                          'value' => ''
+     *                                          )
+     *                              )
      * @return int              number of rows
      */
     protected function insert($table, $data)
@@ -81,13 +87,10 @@ class Model extends Database
         $columns = $values = $prepare = array();
         foreach ($data as $column => $args) {
             $columns[] = $column;
-            // $values[] = $value;
-            // $prepare[] = "?";
             $param = ":". $column;
             $prepare[] = $param;
-            $values["$param"] = $args;
+            $values[$param] = $args;
         }
-        log_message($values);
         $sql = "INSERT INTO ". $table ." (". implode(",", $columns) .") VALUES (". implode(",", $prepare) . ")";
         $stmt = $this->general_query($sql, $values);
         return $stmt;

@@ -2,6 +2,7 @@
 /**
  * Begin
  */
+
 // Report all PHP errors
 error_reporting(-1);
 
