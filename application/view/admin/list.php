@@ -35,12 +35,14 @@ $total = $content['total'];
                 $count = ($paged - 1) * $limit;
                 foreach ($content['users'] as $key => $user):
                     $count++;
+                    list($yyyy, $mm, $dd) = explode('/', $user['birthdate']);
+                    $birthdate = implode('/', array($dd, $mm, $yyyy));
                 ?>
                     <tr>
                         <td><?php echo $count; ?></td>
                         <td><?php echo $user['name']; ?></td>
                         <td><?php echo $user['email']; ?></td>
-                        <td><?php echo $user['birthdate']; ?></td>
+                        <td><?php echo $birthdate; ?></td>
                         <td><a href="<?php echo '/admin/delete/'. $user['id']; ?>" class="btn btn-danger delete-user">Delete</a></td>
                     </tr>
                 <?php endforeach; ?>

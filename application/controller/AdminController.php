@@ -16,6 +16,10 @@ class AdminController extends UserController
 
     public function index()
     {
+        if (ceil($this->model->get_total() / $this->limit) < get_page()) {
+            set_page(get_page() - 1);
+        }
+        
         $users = $this->model->get_all_user(get_page(), $this->limit);
 
         $this->view->set_content('users', $users);

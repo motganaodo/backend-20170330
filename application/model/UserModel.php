@@ -24,7 +24,8 @@ class UserModel extends Model
      */
     public function get_user($key_name, $value)
     {
-        return $this->fetch_one_row($this->table, $key_name, $value);
+        $args = array($key_name => array('type' => 'string', 'value' => $value));
+        return $this->fetch_one_row($this->table, $key_name, $args);
     }
 
     public function get_all_user($paged = 1, $limit = 12)
@@ -50,10 +51,27 @@ class UserModel extends Model
         return $stmt->rowCount();
     }
 
-    public function delete_user($id)
+    public function delete_user($value, $key_name = '')
     {
-        $stmt = $this->delete_one($this->table, 'id', $id);
-        return $stmt->rowCount();
+        $key = 'id';
+        if (!empty($key_name)) {
+            $key = $key_name;
+        }
+        $args = array($key => array('type' => 'int', 'value' => $value));
+        return $this->delete_one($this->table, $key, $args)->rowCount();
+    }
+
+    public function update_user($id, $username, $birthdate, $password)
+    {
+        $data = array(
+            'id' => array('type' => 'string', 'value' => $id),
+            'name' => array('type' => 'string', 'value' => $username),
+            'birthdate' => array('type' => 'string', 'value' => $birthdate)
+            );
+        if (!empty($password)) {
+            $data['password'] = array('type' => 'string', 'value' => sha1($password));
+        }
+        return $this->update_one($this->table, 'id', $data)->rowCount();
     }
 }
 ?>

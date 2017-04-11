@@ -65,6 +65,9 @@ class Autoload
 
         if (include(DIR_CONTROL . '/' . $controller_name . '.php')) {
             $controller = new $controller_name();
+            if (empty($method_name)) {
+                $method_name = 'index';
+            }
             if (method_exists($controller, $method_name)) {
                 $controller->set_params($params, $method_name);
                 $controller->$method_name();

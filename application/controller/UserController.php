@@ -33,13 +33,12 @@ class UserController extends Controller
                 if (!empty($user)) {
                     $sha_password = sha1($password);
                     if ($user['password'] == $sha_password) {
-                        unset($user['password']);
                         $_SESSION['user'] = $user;
                         // Check if administrator
                         if(($user['role']+0) > 0) {
                             redirect('/admin/index');
                         }
-                        redirect();
+                        redirect('/user/profile');
                     }else{
                         $msg = array(
                             'type' => 'info',
@@ -158,6 +157,88 @@ class UserController extends Controller
         }
         $this->view->set_content('title', 'signup');
         $this->view->render('/user/signup.php');
-    }       
+    }
+
+    public function profile()
+    {
+        if (!Authentication::is_login()) {
+            $this->logout('/user/login');
+        }
+
+        $msg = array();
+        $user = $_SESSION['user'];
+        if (!empty($_POST)) {
+            $validate = true;
+            $msg['type'] = 'error';
+
+            // Validate username
+            if (!empty($_POST['username'])) {
+                $name = trim($_POST['username']);
+                $name = preg_replace('/\s+/', ' ', $name);
+                $name = filter_var($name, FILTER_SANITIZE_STRING);
+                if (preg_match('/^(\w+\s?)+$/', $name) === 1) {
+                    if (strlen($name) > 150) {
+                        $validate = false;
+                        $msg['content'][] = 'The name must less than 150 characters';
+                    }
+                }else{
+                    $validate = false;
+                    $msg['content'][] = 'Name invalid';
+                }
+            }else{
+                $validate = false;
+                $msg['content'][] = 'Name cannot be blank';
+            }
+
+            // validate birthdate
+            if (!empty($_POST['birthdate'])) {
+                $birthdate = preg_replace('/\s+/', '', $_POST['birthdate']);
+                list($dd, $mm, $yyyy) = explode('/', $birthdate);
+                if (!checkdate($mm, $dd, $yyyy)) {
+                    $validate = false;
+                    $msg['content'][] = 'Birthday invalid';
+                }
+            }else{
+                $validate = false;
+                $msg['content'][] = 'Birthday cannot be blank';
+            }
+
+            // validate password
+            if (!empty($_POST['old-password']) && !empty($_POST['new-password']) && !empty($_POST['re-password'])) {
+                if (sha1($_POST['old-password']) != $user['password']) {
+                    $validate = false;
+                    $msg['content'][] = 'Old password wrong';
+                }
+                if ($_POST['new-password'] != $_POST['re-password']) {
+                    $validate = false;
+                    $msg['content'][] = "The new password and confirm password doesn't match";
+                }
+            }elseif (!empty($_POST['new-password'])) {
+                $validate = false;
+                $msg['content'][] = 'One of three password fields cannot be blank';
+            }
+
+            if ($validate) {
+                $birthdate = implode('/', array($yyyy, $mm, $dd));
+                $password = $_POST['new-password'];
+     
+                $result = $this->model->update_user($user['id'], $name, $birthdate, $password);
+                if ($result > 0) {
+                    $msg['type'] = 'success';
+                    $msg['content'] = 'Update success';
+                    $_SESSION['user'] = $this->model->get_user('id', $user['id']);
+                    redirect('/user/profile');
+                }else{
+                    $msg['content'] = 'Update failed';
+                }
+            }
+        }
+
+        $this->view->set_content('user', $user);
+        $this->view->set_content('title', 'Profile');
+        $this->view->set_content('message', $msg);
+
+        $this->view->render('/user/profile.php');
+    }
 }
 ?>

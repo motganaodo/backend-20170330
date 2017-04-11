@@ -7,6 +7,20 @@
     <?php include(DIR_VIEW . '/header.php'); ?>
 
     <div class="row main-content">
+        <?php if (Authentication::is_login()): ?>
+            <?php
+                $back_url = '/home';
+                if (Authentication::is_admin()) {
+                    $back_url = '/admin';
+                }
+            ?>
+            <div class="col-md-8 col-md-offset-2">
+                <ol class="breadcrumb">
+                    <li class="active"><a href="<?php echo $back_url; ?>">Home</a></li>
+                </ol>
+            </div>
+        <?php endif; ?>
+
         <?php
         // $dir_file from class View
         if (!empty($dir_file)) {

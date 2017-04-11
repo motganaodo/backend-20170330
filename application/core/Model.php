@@ -47,12 +47,10 @@ class Model extends Database
      * @param  array $args  table, where-condition, values = array('value_1', 'value_2', ...)
      * @return array or FALSE
      */
-    protected function fetch_one_row($table, $field_name, $value)
+    protected function fetch_one_row($table, $field_name, $data)
     {
-        $sql = "SELECT * FROM ". $table ." WHERE ". $field_name ." = :value LIMIT 1";
-        $args = array(
-            ':value' => array('type' => 'string', 'value' => $value),
-            );
+        $sql = "SELECT * FROM ". $table ." WHERE ". $field_name ." = :". $field_name ." LIMIT 1";
+        $args = array(":". $field_name => $data[$field_name]);
         $stmt = $this->general_query($sql, $args);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -102,11 +100,35 @@ class Model extends Database
         return $stmt;
     }
 
-    protected function delete_one($table, $field_name, $value)
+    protected function delete_one($table, $field_name, $data)
     {
-        $sql = "DELETE FROM ". $table ." WHERE ". $field_name ." = :id";
-        $args = array(":id" => array('type' => 'int', 'value' => $value));
+        $sql = "DELETE FROM ". $table ." WHERE ". $field_name ." = :". $field_name;
+        $args = array(":". $field_name => $data[$field_name]);
         $stmt = $this->general_query($sql, $args);
+        return $stmt;
+    }
+
+    /**
+     * 
+     * @param  string   $table      
+     * @param  string   $key_name   
+     * @param  array    $data       
+     * @return                
+     */
+    protected function update_one($table, $key_name, $data)
+    {
+        $key = $data[$key_name];
+        unset($data['id']);
+        
+        $update_arg = $values = array();
+        foreach ($data as $field_name => $value) {
+            $prepare = ":". $field_name;
+            $update_arg[] = $field_name ." = ". $prepare;
+            $values[$prepare] = $value;
+        }
+        $sql = "UPDATE ". $table ." SET ". implode(",", $update_arg) ." WHERE ". $key_name ." = :keyname";
+        $values[":keyname"] = $key;
+        $stmt = $this->general_query($sql, $values);
         return $stmt;
     }
 

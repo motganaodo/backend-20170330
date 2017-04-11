@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
         enabledHours: false
     });
 
-    $('.list-users').find('.delete-user').click(function(event) {
+    $('.list-users').find('.delete-user').on('click', function(event) {
         event.preventDefault();
         var result = confirm("Want to delete this user?");
         if (result) {
@@ -16,13 +16,11 @@ jQuery(document).ready(function($) {
                 }).done(function(response) {
                     if (response.message) {
                         alert(response.message);
-                        $.ajax({
-                            url: response.redirect,
-                            dataType: 'html'
-                        }).done(function(data) {
-                            var content = $.parseHTML(data);
-                            $('.list-users').html($(content).find('.list-users').html());
-                        });
+                        if (response.redirect) {
+                            setInterval(function(){
+                                window.location.replace(response.redirect);
+                            }, 1000);
+                        }
                     }else{
                         alert('bug somewhere!!!');
                     }

@@ -8,7 +8,7 @@
         <?php if (Authentication::is_login()): ?>
             <p>&nbsp;</p>
             <p>Welcome: <?php echo get_user_name(); ?></p>
-            <a href="/user/logout">Logout</a>
+            <p><a href="/user/profile">Profile</a>&nbsp;&nbsp;&nbsp;<a href="/user/logout">Logout</a></p>
         <?php else: ?>
             <p>&nbsp;</p>
             <a href="/user/login">Login</a>

@@ -11,6 +11,9 @@ class Controller
     public function __construct()
     {
         $this->view = new View();
+        if (empty(get_page()) || get_page()*1 < 1) {
+            set_page(1);
+        }
     }
 
     public function set_params($params, $method = '')
