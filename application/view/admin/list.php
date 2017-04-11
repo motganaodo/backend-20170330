@@ -30,7 +30,6 @@ $total = $content['total'];
                     <th class="col-md-3">Email</th>
                     <th class="col-md-3">Birthdate</th>
                     <th class="col-md-1">&nbsp;</th>
-                    <th class="col-md-1">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +43,6 @@ $total = $content['total'];
                         <td><?php echo $user['name']; ?></td>
                         <td><?php echo $user['email']; ?></td>
                         <td><?php echo $user['birthdate']; ?></td>
-                        <td><a href="<?php echo '/admin/edit/'. $user['id']; ?>" class="btn btn-info">Edit</a></td>
                         <td><a href="<?php echo '/admin/delete/'. $user['id']; ?>" class="btn btn-danger">Delete</a></td>
                     </tr>
                 <?php endforeach; ?>

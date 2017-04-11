@@ -11,16 +11,13 @@ class Controller
     public function __construct()
     {
         $this->view = new View();
-        $this->params['paged'] = 1;
+        $this->params[0] = 1;
     }
 
-    public function set_page($params)
+    public function set_params($params)
     {
-        if (!empty($params) && preg_match('/^\d{1,9}$/', $params[0]) === 1) {
-            $paged = $params[0]*1;
-            if (is_int($paged) && $paged > 1) {
-                $this->params['paged'] = $paged;
-            }
+        if (!empty($params)) {
+            $this->params = $params;
         }
     }
 

@@ -1,10 +1,18 @@
 <?php defined('DIR_BASE') OR exit('No direct script access allowed'); ?>
 
-<div class="col-md-6 col-md-offset-3">
-    <h2 class="text-uppercase"><?php echo $content['title']; ?></h2>
+<div class="col-md-4 col-md-offset-4">
+    <h1 class="text-uppercase"><?php echo $content['title']; ?></h1>
     <div>&nbsp;</div>
 
-    <form action="/admin/edit" method="post" accept-charset="utf-8">
+    <?php if (!empty($content['message']['content'])) : ?>
+            <div class="alert <?php echo 'alert-'. frontend_class($content['message']['type']); ?>">
+                <?php foreach ($content['message']['content'] as $msg): ?>
+                    <p><?php echo $msg; ?></p>
+                <?php endforeach; ?>
+            </div>
+    <?php endif; ?>
+
+    <form action="/user/signup" method="post" accept-charset="utf-8">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" name="name" id="name" class="form-control">
