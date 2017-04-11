@@ -65,7 +65,9 @@ class UserController extends Controller
 
     public function logout($redirect = '/')
     {
-        unset($_SESSION['user']);
+        foreach ($_SESSION as $name => $value) {
+            unset($_SESSION[$name]);
+        }
         redirect($redirect);
     }
 

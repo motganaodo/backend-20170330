@@ -47,11 +47,11 @@ class Model extends Database
      * @param  array $args  table, where-condition, values = array('value_1', 'value_2', ...)
      * @return array or FALSE
      */
-    protected function fetch_one_row($table, $key_name, $value)
+    protected function fetch_one_row($table, $field_name, $value)
     {
-        $sql = "SELECT * FROM ". $table ." WHERE ". $key_name ."= :email LIMIT 1";
+        $sql = "SELECT * FROM ". $table ." WHERE ". $field_name ." = :value LIMIT 1";
         $args = array(
-            ':email' => array('type' => 'string', 'value' => $value),
+            ':value' => array('type' => 'string', 'value' => $value),
             );
         $stmt = $this->general_query($sql, $args);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -99,6 +99,14 @@ class Model extends Database
         }
         $sql = "INSERT INTO ". $table ." (". implode(",", $columns) .") VALUES (". implode(",", $prepare) . ")";
         $stmt = $this->general_query($sql, $values);
+        return $stmt;
+    }
+
+    protected function delete_one($table, $field_name, $value)
+    {
+        $sql = "DELETE FROM ". $table ." WHERE ". $field_name ." = :id";
+        $args = array(":id" => array('type' => 'int', 'value' => $value));
+        $stmt = $this->general_query($sql, $args);
         return $stmt;
     }
 

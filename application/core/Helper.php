@@ -42,4 +42,14 @@ function get_user_name()
     return $_SESSION['user']['name'];
 }
 
+function get_page()
+{
+    return $_SESSION['paged'];
+}
+
+function set_page($paged)
+{
+    $_SESSION['paged'] = $paged;
+}
+
 ?>

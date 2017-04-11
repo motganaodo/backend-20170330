@@ -66,7 +66,7 @@ class Autoload
         if (include(DIR_CONTROL . '/' . $controller_name . '.php')) {
             $controller = new $controller_name();
             if (method_exists($controller, $method_name)) {
-                $controller->set_params($params);
+                $controller->set_params($params, $method_name);
                 $controller->$method_name();
             }else{
                 redirect('/404.html');

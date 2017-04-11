@@ -7,9 +7,7 @@ $total = $content['total'];
 
 ?>
 
-
-
-<div class="col-md-6 col-md-offset-3">
+<div class="col-md-6 col-md-offset-3 list-users">
 
     <h2 class="text-uppercase">List users</h2>
     <?php if (!empty($content['message']['content'])) : ?>
@@ -43,7 +41,7 @@ $total = $content['total'];
                         <td><?php echo $user['name']; ?></td>
                         <td><?php echo $user['email']; ?></td>
                         <td><?php echo $user['birthdate']; ?></td>
-                        <td><a href="<?php echo '/admin/delete/'. $user['id']; ?>" class="btn btn-danger">Delete</a></td>
+                        <td><a href="<?php echo '/admin/delete/'. $user['id']; ?>" class="btn btn-danger delete-user">Delete</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -77,4 +75,4 @@ $total = $content['total'];
             </ul>
         </nav>
     <?php endif; ?>
-</div>
+</div><!-- .list-users -->

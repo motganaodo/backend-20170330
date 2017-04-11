@@ -4,7 +4,7 @@
 */
 class UserModel extends Model
 {
-    protected $user_table = 'users';
+    protected $table = 'users';
 
     public function __construct()
     {
@@ -13,7 +13,7 @@ class UserModel extends Model
 
     public function get_total()
     {
-        return (int)$this->count($this->user_table);
+        return (int)$this->count($this->table);
     }
 
     /**
@@ -24,12 +24,12 @@ class UserModel extends Model
      */
     public function get_user($key_name, $value)
     {
-        return $this->fetch_one_row($this->user_table, $key_name, $value);
+        return $this->fetch_one_row($this->table, $key_name, $value);
     }
 
     public function get_all_user($paged = 1, $limit = 12)
     {
-        return $this->fetch_all($this->user_table, $paged, $limit);
+        return $this->fetch_all($this->table, (int)$paged, $limit);
     }
 
     /**
@@ -46,7 +46,13 @@ class UserModel extends Model
             'password' => array('type' => 'string', 'value' => sha1($password)),
             'role' => array('type' => 'int', 'value' => $role),
             );
-        $stmt = $this->insert($this->user_table, $info);
+        $stmt = $this->insert($this->table, $info);
+        return $stmt->rowCount();
+    }
+
+    public function delete_user($id)
+    {
+        $stmt = $this->delete_one($this->table, 'id', $id);
         return $stmt->rowCount();
     }
 }
